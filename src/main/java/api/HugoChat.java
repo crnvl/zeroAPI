@@ -7,7 +7,6 @@ public class HugoChat {
 
     private String accountName;
     private String defaultRoomId = "00000000-0000-0000-0000-000000000000";
-    private String prefix = "!";
     private String UUID;
 
     public HugoChat(String username) {
@@ -16,14 +15,6 @@ public class HugoChat {
 
     public void setRoom(String roomId) {
         this.defaultRoomId = roomId;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public String getUUID() {
-        return this.UUID;
     }
 
     public void login() throws IOException {
