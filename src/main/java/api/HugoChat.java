@@ -1,5 +1,6 @@
 package api;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -29,13 +30,35 @@ public class HugoChat {
         Request.Users.putChangeUsername(username, UUID);
     }
 
-    //pls fix
-//    public JSONObject getUsers() throws IOException {
-//        return Request.Users.getUsers(defaultRoomId);
-//    }
+    public JSONArray getUsers() throws IOException {
+        return Request.Users.getUsers(defaultRoomId);
+    }
 
     public void sendActive() throws IOException {
         Request.Users.patchActive(defaultRoomId, UUID);
     }
 
+    public JSONArray getMessageHistory(int amount) throws IOException {
+        return Request.Messages.getHistory(defaultRoomId, amount);
+    }
+
+    public JSONArray getMessageHistoryBefore(String messageId, int amount) throws IOException {
+        return Request.Messages.getHistoryBefore(defaultRoomId, messageId, amount);
+    }
+
+    public JSONArray getMessageHistoryAfter(String messageId, int amount) throws IOException {
+        return Request.Messages.getHistoryAfter(defaultRoomId, messageId);
+    }
+
+    public void sendMessage(String content) throws IOException {
+        Request.Messages.sendMessage(defaultRoomId, UUID, accountName, content);
+    }
+
+    public JSONObject createRoom(String name, Boolean isListed) throws IOException {
+        return Request.Rooms.postCreateRoom(name, isListed);
+    }
+
+    public JSONArray getRooms() throws IOException {
+        return Request.Rooms.getAllRooms();
+    }
 }

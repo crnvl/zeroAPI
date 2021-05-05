@@ -1,5 +1,6 @@
 package utils;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import test.Main;
 
@@ -49,35 +50,21 @@ public class Web {
         return new JSONObject("{\"code\":400}");
     }
 
-    public static JSONObject get(String GET_URL) throws IOException {
-        URL obj = new URL(GET_URL);
-        HttpURLConnection httpURLConnection = (HttpURLConnection) obj.openConnection();
-        httpURLConnection.setRequestMethod("GET");
-        httpURLConnection.setRequestProperty("User-Agent", USER_AGENT);
-        httpURLConnection.addRequestProperty("content-type", "application/json");
-        int responseCode = httpURLConnection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) { // success
-            BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-            String inputLine;
-            JSONObject response = new JSONObject();
-
-            while ((inputLine = in.readLine()) != null) {
-                response = new JSONObject(inputLine);
+    public static JSONArray get(String GET_URL) throws IOException {
+        JSONArray result = new JSONArray();
+        URL url = new URL(GET_URL);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        try (var reader = new BufferedReader(
+                new InputStreamReader(conn.getInputStream()))) {
+            for (String line; (line = reader.readLine()) != null; ) {
+                result = new JSONArray(line);
             }
-            in.close();
-
-            return response;
-        } else {
-            System.out.println("[ERROR] Couldn't /GET " + GET_URL);
         }
-
-        for (int i = 1; i <= 8; i++) {
-            System.out.println(httpURLConnection.getHeaderFieldKey(i) + " = " + httpURLConnection.getHeaderField(i));
-        }
-        return new JSONObject("{\"code\":400}");
+        return new JSONArray(result);
     }
 
-    public static JSONObject put(String PUT_URL, String PUT_PARAMS) throws IOException, InterruptedException {
+    public static void put(String PUT_URL, String PUT_PARAMS) throws IOException, InterruptedException {
         var request = HttpRequest.newBuilder()
                 .uri(URI.create(PUT_URL))
                 .header("Content-Type", "application/json")
@@ -88,7 +75,7 @@ public class Web {
 
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        return new JSONObject(response.body());
+        new JSONObject(response.body());
     }
 
     public static void patch(String PATCH_URL, String PATCH_PARAMS) throws IOException {
