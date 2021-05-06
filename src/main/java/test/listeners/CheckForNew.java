@@ -1,8 +1,10 @@
 package test.listeners;
 
 import api.HugoChat;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import test.Main;
+import utils.Misc;
 
 import java.io.IOException;
 
@@ -43,14 +45,27 @@ public class CheckForNew {
                             client.sendMessage("Please specify another argument!");
                     }
                     case "uwufy" -> {
-                        if(arguments.length > 1) {
-                            String uwufy = new JSONObject(client.getMessageHistory(2).get(1)).get("body").toString();
-
-
-                            client.sendMessage("Changed Name to `" + arguments[1] + "`");
-                        }else {
-                            client.sendMessage("Please specify another argument!");
+                        if(arguments[0].startsWith("?")) {
+                            client.sendMessage("Invalid Content");
+                        } else {
+                            if(arguments.length > 1) {
+                                String uwufy = latest.replace(arguments[0], "");
+                                client.sendMessage(Misc.uwu(uwufy));
+                            }else {
+                                String uwufy = new JSONObject(client.getMessageHistory(2).get(0).toString()).get("body").toString();
+                                client.sendMessage(Misc.uwu(uwufy));
+                            }
                         }
+                    }
+                    case "help" -> {
+                        client.sendMessage(
+                                "__**COMMAND HELP**__\\\n" +
+                                        "`" + Main.PREFIX + "ping` | Test command\\\n" +
+                                        "`" + Main.PREFIX + "stop` | Stop the Bot\\\n" +
+                                        "`" + Main.PREFIX + "tom`  | tom\\\n" +
+                                        "`" + Main.PREFIX + "nick` <nickname> | Set the Bot's Nickname\\\n" +
+                                        "`" + Main.PREFIX + "uwufy` (text) | Text uwufier"
+                        );
                     }
                 }
             }
