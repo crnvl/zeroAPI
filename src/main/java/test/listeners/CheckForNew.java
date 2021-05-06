@@ -7,6 +7,7 @@ import test.Main;
 import utils.Misc;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class CheckForNew {
 
@@ -57,14 +58,38 @@ public class CheckForNew {
                             }
                         }
                     }
+                    case "room" -> {
+                        if(arguments.length > 1) {
+                            JSONArray rooms = new JSONArray(client.getRooms().toString());
+
+                            String roomId = "";
+                            for (int i = 0; i < rooms.length(); i++) {
+                                JSONObject room = new JSONObject(rooms.get(i).toString());
+                                if(room.get("name").toString().contains(arguments[1]))
+                                    roomId = room.get("id").toString();
+                            }
+
+                            if(!roomId.isEmpty()) {
+
+                                client.sendMessage("Changing room...");
+                                client.setRoom(roomId);
+                                client.sendMessage("Successfully changed room!");
+                            }else {
+                                client.sendMessage("Failed to change room!");
+                            }
+
+                        }else
+                            client.sendMessage("Please specify another argument!");
+                    }
                     case "help" -> {
                         client.sendMessage(
                                 "__**COMMAND HELP**__\\\n" +
                                         "`" + Main.PREFIX + "ping` | Test command\\\n" +
                                         "`" + Main.PREFIX + "stop` | Stop the Bot\\\n" +
                                         "`" + Main.PREFIX + "tom`  | tom\\\n" +
-                                        "`" + Main.PREFIX + "nick` <nickname> | Set the Bot's Nickname\\\n" +
-                                        "`" + Main.PREFIX + "uwufy` (text) | Text uwufier"
+                                        "`" + Main.PREFIX + "nick <nickname>` | Set the Bot's Nickname\\\n" +
+                                        "`" + Main.PREFIX + "uwufy (text)` | Text uwufier\\\n" +
+                                        "`" + Main.PREFIX + "room <room>` | Change the bot's room\\\n"
                         );
                     }
                 }
