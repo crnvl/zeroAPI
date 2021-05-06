@@ -58,7 +58,7 @@ In order to change your **own** nickname, use
 ```
 
 ### Rooms
-This can be used, to create a Room. You can also specify the visiblity of your room, by changing the `isListed` value.
+This can be used, to create a Room. You can also specify the visiblity of your room by changing the `isListed` value.
 This will also return information about the created room.
 ```java
     client.createRoom("do-re-mi-fa-so-la-ti-do", true);
