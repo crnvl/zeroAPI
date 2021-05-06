@@ -46,7 +46,7 @@ public class HugoChat {
         return Request.Messages.getHistoryBefore(defaultRoomId, messageId, amount);
     }
 
-    public JSONArray getMessageHistoryAfter(String messageId, int amount) throws IOException {
+    public JSONArray getMessageHistoryAfter(String messageId) throws IOException {
         return Request.Messages.getHistoryAfter(defaultRoomId, messageId);
     }
 

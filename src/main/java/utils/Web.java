@@ -45,7 +45,6 @@ public class Web {
             return response;
         } else {
             System.out.println("[ERROR] Couldn't /POST " + POST_URL);
-            Main.chat.login();
         }
         return new JSONObject("{\"code\":400}");
     }
