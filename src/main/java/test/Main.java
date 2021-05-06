@@ -1,30 +1,20 @@
 package test;
 
 import api.HugoChat;
+import test.listeners.CheckForNew;
 
 import java.io.IOException;
 
 public class Main {
 
-    public static HugoChat chat;
+    public static String PREFIX = "?";
+
+    public static HugoChat client;
     public static void main(String[] args) throws IOException, InterruptedException {
-        chat = new HugoChat("API DEMO [BOT]");
-        chat.login();
+        client = new HugoChat("Z.E.R.O");
+        client.login();
 
-        chat.changeUsername("API DEMO v2 [BOT]");
-
-        chat.sendActive();
-
-        System.out.println(chat.getUsers());
-
-        System.out.println(chat.getMessageHistory(1));
-
-        chat.sendMessage("test sent by API DEMO");
-
-        chat.createRoom("shit on the ground Room", true);
-        System.out.println(chat.createRoom("haha room go brr", true));
-
-        System.out.println(chat.getRooms());
+        CheckForNew.eventListener(true, client);
     }
 
 }

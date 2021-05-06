@@ -44,7 +44,7 @@ public class Web {
             in.close();
             return response;
         } else {
-            System.out.println("[ERROR] Couldn't /POST " + POST_URL);
+            Main.client.reconnect();
         }
         return new JSONObject("{\"code\":400}");
     }

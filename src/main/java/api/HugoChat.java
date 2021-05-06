@@ -9,6 +9,7 @@ public class HugoChat {
     private String accountName;
     private String defaultRoomId = "00000000-0000-0000-0000-000000000000";
     private String UUID;
+    private boolean reconnect = false;
 
     public HugoChat(String username) {
         this.accountName = username;
@@ -26,7 +27,15 @@ public class HugoChat {
         System.out.println("[USER] name: " + res.get("name") + ", id: " + UUID);
     }
 
+    public void reconnect() throws IOException {
+        System.out.println("[INFO] Reconnecting...");
+        JSONObject res = Request.Users.postLogin(accountName);
+        UUID = res.get("id").toString();
+        System.out.println("[INFO] Reconnected!");
+    }
+
     public void changeUsername(String username) throws IOException, InterruptedException {
+        accountName = username;
         Request.Users.putChangeUsername(username, UUID);
     }
 
